@@ -1,4 +1,4 @@
-<script>
+<script etup lang="ts">
 export default {
 data() {
   return {
