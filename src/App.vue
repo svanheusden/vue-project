@@ -14,7 +14,11 @@ export default {
     }
   },
   computed: {
-    // ...
+    filteredTodos() {
+      return this.hideCompleted
+        ? this.todos.filter((t) => !t.done)
+        : this.todos
+    }
   },
   methods: {
     addTodo() {
@@ -34,7 +38,7 @@ export default {
     <button>Add Todo</button>
   </form>
   <ul>
-    <li v-for="todo in todos" :key="todo.id">
+    <li v-for="todo in filteredTodos" :key="todo.id">
       <input type="checkbox" v-model="todo.done">
       <span :class="{ done: todo.done }">{{ todo.text }}</span>
       <button @click="removeTodo(todo)">X</button>
