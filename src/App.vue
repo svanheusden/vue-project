@@ -1,84 +1,52 @@
-<script etup lang="ts">
-let id=0
+<script>
+let id = 0
 
 export default {
-data() {
-  return {
-    newTodo: '',
-    todos: [
-      {
-        id: id++,
-        text: 'Learn Vue 3',
-        
-      },
-      {
-        id: id++,
-        text: 'Learn Vue Router',
-        
-      },
-    ],
-    titleClass: 'title',
-    message: 'Welcome to Your Vue.js App',
-    count: 0,
-    awesome: true,
-    text:''
+  data() {
+    return {
+      newTodo: '',
+      hideCompleted: false,
+      todos: [
+        { id: id++, text: 'Learn HTML', done: true },
+        { id: id++, text: 'Learn JavaScript', done: true },
+        { id: id++, text: 'Learn Vue', done: false }
+      ]
     }
   },
+  computed: {
+    // ...
+  },
   methods: {
-    increment() {
-      this.count++
-    },
-    toggle() {
-      this.awesome = !this.awesome
-    },
     addTodo() {
-      this.todos.push({
-        id: id++,
-        text: this.newTodo    
-      })
+      this.todos.push({ id: id++, text: this.newTodo, done: false })
       this.newTodo = ''
-        },
-      removeTodo(todo) {
-        this.todos = this.todos.filter((t) => t !== todo)
-      }
-       }      
-      }
-    
-
+    },
+    removeTodo(todo) {
+      this.todos = this.todos.filter((t) => t !== todo)
+    }
+  }
+}
 </script>
 
-
 <template>
-  <button @click="toggle">toggle</button>
-<h1 v-if="awesome" :class='titleClass'>{{ message }}</h1>
-<h1 v-else>Oh no</h1>
-<input v-model="text" placeholder="Type here"/>
-<p>{{ text }}</p>
-
-
-<form @submit.prevent="addTodo">
-  <input v-model="newTodo" placeholder="Add a new todo">
-  <button type="submit">Add</button>
-</form> 
-
-<ul>
-  <li v-for="todo in todos" :key="todo.id">
-    {{ todo.text }}
-    <button @click="removeTodo(todo)">X</button>
-  </li>
-
-
-
-</ul>
-
-
-
+  <form @submit.prevent="addTodo">
+    <input v-model="newTodo">
+    <button>Add Todo</button>
+  </form>
+  <ul>
+    <li v-for="todo in todos" :key="todo.id">
+      <input type="checkbox" v-model="todo.done">
+      <span :class="{ done: todo.done }">{{ todo.text }}</span>
+      <button @click="removeTodo(todo)">X</button>
+    </li>
+  </ul>
+  <button @click="hideCompleted = !hideCompleted">
+    {{ hideCompleted ? 'Show all' : 'Hide completed' }}
+  </button>
 </template>
 
 <style>
-.title {
-  font-size: 40px;
-  font-weight: 200;
-  color: red;
+.done {
+  text-decoration: line-through;
 }
 </style>
